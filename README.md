@@ -25,7 +25,11 @@
 - **🇨🇳 A股市场 (China A-Stock)**: 基于MiniQMT的完整支持,保持原有所有功能
 - **🇺🇸 美股市场 (US Stock)**: 通过Alpaca API支持美股交易和数据获取
 - **🇭🇰 港股市场 (HK Stock)**: 通过富途OpenAPI支持港股交易
-- **₿ 加密货币 (Cryptocurrency)**: 支持币安等主流加密货币交易所
+- **₿ 加密货币 (Cryptocurrency)**: ✅ **已实现** - 支持币安等主流加密货币交易所
+  - 支持 Binance (币安)
+  - 支持 CCXT (100+交易所)
+  - 7x24小时交易
+  - 完整的数据和交易接口
 
 ### 快速开始
 
@@ -143,7 +147,11 @@ class MultiMarketStrategy(Strategy):
 - **`BaseMarketAdapter`**: 定义所有市场适配器的统一接口
 - **`MarketRegistry`**: 单例模式管理市场适配器的注册和查找
 - **`DataNormalizer`**: 实现跨市场数据标准化
-- **市场特定适配器**: `ChinaAStockAdapter`, `USStockAdapter`, `HKStockAdapter`, `CryptoAdapter`
+- **市场特定适配器**: 
+  - `ChinaAStockAdapter` - A股市场
+  - `USStockAdapter` - 美股市场
+  - `HKStockAdapter` - 港股市场
+  - `CryptoAdapter` - ✅ **加密货币市场** (新增)
 
 ### 文档
 
@@ -153,14 +161,16 @@ class MultiMarketStrategy(Strategy):
 - 📖 [市场适配器开发指南](docs/ADAPTER_DEVELOPMENT_GUIDE.md)
 - 📖 [配置指南](docs/CONFIGURATION_GUIDE.md)
 - 📖 [多市场策略开发最佳实践](docs/MULTIMARKET_STRATEGY_GUIDE.md)
+- 📖 ✅ **[加密货币交易指南](docs/CRYPTO_GUIDE.md)** (新增)
+- 📖 ✅ **[加密货币适配器实现总结](docs/CRYPTO_IMPLEMENTATION_SUMMARY.md)** (新增)
 
 ### 示例策略
 
 参考以下示例了解如何编写多市场策略:
 
-- `examples/us_stock_dual_ma.py` - 美股双均线策略
-- `examples/hk_stock_grid.py` - 港股网格策略
-- `examples/crypto_momentum.py` - 加密货币动量策略
+- `strategies/双均线多股票_使用MA函数.py` - A股双均线策略
+- `strategies/RSI策略.py` - A股RSI策略
+- `strategies/加密货币双均线策略.py` - ✅ **加密货币双均线策略** (新增)
 
 ---
 

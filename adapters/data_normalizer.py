@@ -6,6 +6,7 @@
 
 from typing import Dict, Any, List
 from datetime import datetime, timezone
+import pandas as pd
 import pytz
 import re
 
@@ -353,3 +354,84 @@ class DataNormalizer:
             return any(quote in symbol.upper() for quote in ['USDT', 'BTC', 'ETH', 'USDC'])
         
         return False
+    
+    @classmethod
+    def normalize_dataframe(
+        cls,
+        df: pd.DataFrame,
+        market_type: str,
+        symbol_field: str = 'symbol',
+        time_field: str = 'time'
+    ) -> pd.DataFrame:
+        """
+        标准化DataFrame的列名和数据格式
+        
+        Args:
+            df: 原始数据DataFrame
+            market_type: 市场类型
+            symbol_field: 代码字段名（原始字段名）
+            time_field: 时间字段名（原始字段名）
+            
+        Returns:
+            pd.DataFrame: 标准化后的DataFrame
+            
+        标准化后的列包括:
+            - symbol: 标准化的代码（带市场前缀）
+            - time: 标准化的时间（datetime对象，UTC时区）
+            - open, high, low, close: 价格字段
+            - volume: 成交量
+            - amount: 成交额（可选）
+            - 其他字段保持不变
+        """
+        if df.empty:
+            return df
+        
+        # 创建副本，避免修改原始数据
+        result = df.copy()
+        
+        # 获取字段映射
+        field_mapping = cls.get_market_field_mapping(market_type)
+        
+        # 重命名列
+        # 先找出所有需要重命名的列
+        rename_dict = {}
+        for orig_col in result.columns:
+            if orig_col in field_mapping:
+                std_col = field_mapping[orig_col]
+                if std_col != orig_col:
+                    rename_dict[orig_col] = std_col
+        
+        if rename_dict:
+            result = result.rename(columns=rename_dict)
+        
+        # 标准化symbol字段
+        if 'symbol' in result.columns:
+            # 对每个symbol进行标准化
+            result['symbol'] = result['symbol'].apply(
+                lambda x: cls.normalize_symbol(str(x), market_type) if pd.notna(x) else x
+            )
+        
+        # 标准化时间字段
+        if 'timestamp' in result.columns:
+            # 将时间统一转换为datetime对象（UTC时区）
+            def convert_timestamp(ts):
+                if pd.isna(ts):
+                    return ts
+                try:
+                    return cls.normalize_timestamp(ts, market_type, to_utc=True)
+                except Exception:
+                    # 如果转换失败，保持原值
+                    return ts
+            
+            result['timestamp'] = result['timestamp'].apply(convert_timestamp)
+        
+        # 确保数值字段为正确的数据类型
+        numeric_fields = ['open', 'high', 'low', 'close', 'volume', 'amount', 'bid_price', 'ask_price']
+        for field in numeric_fields:
+            if field in result.columns:
+                try:
+                    result[field] = pd.to_numeric(result[field], errors='coerce')
+                except Exception:
+                    pass
+        
+        return result
