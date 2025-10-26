@@ -1,0 +1,52 @@
+{
+    "market": {
+        "type": "us_stock",
+        "name": "美股市场"
+    },
+    "data_source": {
+        "provider": "alpaca",
+        "endpoint": "https://paper-api.alpaca.markets",
+        "api_key": "YOUR_ALPACA_API_KEY",
+        "api_secret": "YOUR_ALPACA_API_SECRET",
+        "paper_trading": true
+    },
+    "system": {
+        "run_mode": "backtest",
+        "session_id": 0,
+        "check_interval": 3
+    },
+    "account": {
+        "account_id": "alpaca_paper_account",
+        "account_type": "STOCK_ACCOUNT"
+    },
+    "backtest": {
+        "start_time": "20240101",
+        "end_time": "20241231",
+        "init_capital": 100000,
+        "benchmark": "US.SPY",
+        "trade_cost": {
+            "commission_rate": 0.0,
+            "min_commission": 0.0,
+            "stamp_tax_rate": 0.0,
+            "sec_fee_rate": 0.0000278,
+            "finra_taf_rate": 0.000166,
+            "slippage": 0.001
+        }
+    },
+    "data": {
+        "kline_period": "1d",
+        "stock_list": [
+            "AAPL",
+            "TSLA",
+            "MSFT"
+        ],
+        "dividend_type": "none"
+    },
+    "risk": {
+        "position_limit": 0.95,
+        "order_limit": 1000,
+        "loss_limit": 0.1,
+        "pdt_rule_enabled": true,
+        "min_account_value_for_pdt": 25000
+    }
+}

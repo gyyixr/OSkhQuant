@@ -1,0 +1,16 @@
+# OSkhQuant 完整版依赖
+# 支持所有市场
+
+-r requirements-base.txt
+
+# 美股
+alpaca-trade-api>=3.0.0
+yfinance>=0.2.28
+
+# 港股
+futu-api>=6.0.0
+
+# 加密货币
+ccxt>=4.0.0
+python-binance>=1.0.0
+websockets>=11.0.0

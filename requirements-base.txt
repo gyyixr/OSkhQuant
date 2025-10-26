@@ -1,0 +1,31 @@
+# OSkhQuant 基础版依赖
+# 仅支持A股市场
+
+# 数据处理
+pandas>=1.5.0
+numpy>=1.24.0
+
+# 时区处理
+pytz>=2023.3
+
+# 交易日历
+holidays>=0.30
+
+# JSON处理
+# (Python内置)
+
+# 日志
+# (Python内置)
+
+# GUI (PyQt5)
+PyQt5>=5.15.0
+PyQt5-sip>=12.11.0
+
+# 绘图
+matplotlib>=3.7.0
+
+# miniQMT依赖 (需要单独安装miniQMT)
+# xtquant (由miniQMT提供)
+
+# 加密
+cryptography>=41.0.0

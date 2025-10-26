@@ -1,0 +1,49 @@
+{
+    "market": {
+        "type": "cryptocurrency",
+        "name": "加密货币市场"
+    },
+    "data_source": {
+        "provider": "binance",
+        "endpoint": "https://api.binance.com",
+        "api_key": "YOUR_BINANCE_API_KEY",
+        "api_secret": "YOUR_BINANCE_API_SECRET",
+        "testnet": false
+    },
+    "system": {
+        "run_mode": "backtest",
+        "session_id": 0,
+        "check_interval": 1
+    },
+    "account": {
+        "account_id": "binance_account",
+        "account_type": "SPOT_ACCOUNT"
+    },
+    "backtest": {
+        "start_time": "20240101",
+        "end_time": "20241231",
+        "init_capital": 10000,
+        "benchmark": "CRYPTO.BTC.USDT",
+        "trade_cost": {
+            "maker_fee_rate": 0.001,
+            "taker_fee_rate": 0.001,
+            "min_commission": 0.0,
+            "slippage": 0.001
+        }
+    },
+    "data": {
+        "kline_period": "1h",
+        "symbol_list": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "BNBUSDT"
+        ]
+    },
+    "risk": {
+        "position_limit": 0.9,
+        "order_limit": 10000,
+        "loss_limit": 0.15,
+        "max_volatility": 0.1,
+        "min_notional": 10.0
+    }
+}

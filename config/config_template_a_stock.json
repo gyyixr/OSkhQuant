@@ -1,0 +1,49 @@
+{
+    "market": {
+        "type": "china_a_stock",
+        "name": "A股市场"
+    },
+    "data_source": {
+        "provider": "miniQMT",
+        "endpoint": "",
+        "api_key": "",
+        "api_secret": ""
+    },
+    "system": {
+        "run_mode": "backtest",
+        "userdata_path": "D:\\国金证券QMT交易端\\userdata_mini",
+        "client_path": "D:\\国金证券QMT交易端\\bin.x64\\XtItClient.exe",
+        "session_id": 0,
+        "check_interval": 3
+    },
+    "account": {
+        "account_id": "test_account",
+        "account_type": "SECURITY_ACCOUNT"
+    },
+    "backtest": {
+        "start_time": "20240101",
+        "end_time": "20241231",
+        "init_capital": 1000000,
+        "benchmark": "sh.000300",
+        "trade_cost": {
+            "commission_rate": 0.0003,
+            "min_commission": 5.0,
+            "stamp_tax_rate": 0.001,
+            "transfer_fee_rate": 0.00002,
+            "slippage": 0.0
+        }
+    },
+    "data": {
+        "kline_period": "1d",
+        "stock_list": [
+            "000001.SZ",
+            "600000.SH"
+        ],
+        "dividend_type": "front"
+    },
+    "risk": {
+        "position_limit": 0.95,
+        "order_limit": 100,
+        "loss_limit": 0.1
+    }
+}
