@@ -1,0 +1,11 @@
+# OSkhQuant 美股版依赖
+# 包含基础版 + 美股市场支持
+
+-r requirements-base.txt
+
+# 美股数据源
+alpaca-trade-api>=3.0.0
+yfinance>=0.2.28
+
+# 美国假期
+# (holidays库已包含)

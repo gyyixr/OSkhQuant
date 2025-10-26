@@ -16,7 +16,155 @@
 
 ---
 
-# 第一章：引言：为什么选择看海量化
+## 🌍 多市场支持 (Multi-Market Support)
+
+> **重大更新**: 看海量化交易系统现已支持多市场交易功能,除A股外,还可接入美股、港股和加密货币市场!
+
+### 支持的市场
+
+- **🇨🇳 A股市场 (China A-Stock)**: 基于MiniQMT的完整支持,保持原有所有功能
+- **🇺🇸 美股市场 (US Stock)**: 通过Alpaca API支持美股交易和数据获取
+- **🇭🇰 港股市场 (HK Stock)**: 通过富途OpenAPI支持港股交易
+- **₿ 加密货币 (Cryptocurrency)**: 支持币安等主流加密货币交易所
+
+### 快速开始
+
+#### 1. 安装依赖
+
+根据您需要的市场选择对应的依赖包:
+
+```bash
+# 仅A股 (基础版)
+pip install -r requirements-base.txt
+
+# A股 + 美股
+pip install -r requirements-us-stock.txt
+
+# A股 + 港股
+pip install -r requirements-hk-stock.txt
+
+# A股 + 加密货币
+pip install -r requirements-crypto.txt
+
+# 完整版 (所有市场)
+pip install -r requirements-full.txt
+```
+
+#### 2. 配置市场
+
+在配置文件中指定要使用的市场:
+
+```json
+{
+    "market": {
+        "type": "us_stock",
+        "name": "美股市场"
+    },
+    "data_source": {
+        "provider": "alpaca",
+        "endpoint": "https://paper-api.alpaca.markets",
+        "credentials_encrypted": "your_encrypted_api_key"
+    },
+    "backtest": {
+        "init_capital": 100000,
+        "trade_cost": {
+            "commission_rate": 0.0,
+            "sec_fee_rate": 0.0000278,
+            "finra_taf_rate": 0.000166
+        }
+    }
+}
+```
+
+#### 3. 编写多市场策略
+
+使用标准化的代码格式:
+
+```python
+from khStrategy import *
+
+class MultiMarketStrategy(Strategy):
+    def init(self, ctx):
+        # 获取当前市场类型
+        market = khGetMarket(ctx)
+        
+        if market == 'us_stock':
+            self.symbols = ['US.AAPL', 'US.GOOGL', 'US.MSFT']
+        elif market == 'hk_stock':
+            self.symbols = ['HK.00700', 'HK.09988']
+        elif market == 'cryptocurrency':
+            self.symbols = ['CRYPTO.BTC.USDT', 'CRYPTO.ETH.USDT']
+        else:  # china_a_stock
+            self.symbols = ['CN.000001.SZ', 'CN.600000.SH']
+    
+    def on_bar(self, ctx, bar):
+        # 统一的策略逻辑适用于所有市场
+        pass
+```
+
+### 代码标准化
+
+系统使用统一的标的代码格式:
+
+- **A股**: `CN.000001.SZ`, `CN.600000.SH`
+- **美股**: `US.AAPL`, `US.GOOGL`
+- **港股**: `HK.00700`, `HK.09988`
+- **加密货币**: `CRYPTO.BTC.USDT`, `CRYPTO.ETH.USDT`
+
+### 主要特性
+
+✅ **统一的适配器接口**: 所有市场使用相同的API调用方式
+✅ **自动数据标准化**: 自动处理不同市场的时区、交易时间、数据格式
+✅ **市场特定费用计算**: 准确计算每个市场的交易成本
+✅ **向后兼容**: 现有A股策略无需修改即可继续使用
+✅ **灵活扩展**: 易于添加新的市场和数据源
+
+### 架构设计
+
+```
+┌─────────────────────────────────────────────────┐
+│           Strategy Layer (策略层)               │
+│     统一的策略API,跨市场无缝切换                 │
+└─────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────┐
+│        Market Registry (市场注册中心)           │
+│          管理和路由所有市场适配器                 │
+└─────────────────────────────────────────────────┘
+                        ↓
+┌───────────┬───────────┬───────────┬─────────────┐
+│ A股适配器 │ 美股适配器│ 港股适配器│ 加密货币适配器│
+│ (MiniQMT) │ (Alpaca)  │  (Futu)   │  (Binance)  │
+└───────────┴───────────┴───────────┴─────────────┘
+```
+
+### 核心组件
+
+- **`BaseMarketAdapter`**: 定义所有市场适配器的统一接口
+- **`MarketRegistry`**: 单例模式管理市场适配器的注册和查找
+- **`DataNormalizer`**: 实现跨市场数据标准化
+- **市场特定适配器**: `ChinaAStockAdapter`, `USStockAdapter`, `HKStockAdapter`, `CryptoAdapter`
+
+### 文档
+
+详细使用文档请参考:
+
+- 📖 [多市场快速开始指南](docs/MULTIMARKET_QUICK_START.md)
+- 📖 [市场适配器开发指南](docs/ADAPTER_DEVELOPMENT_GUIDE.md)
+- 📖 [配置指南](docs/CONFIGURATION_GUIDE.md)
+- 📖 [多市场策略开发最佳实践](docs/MULTIMARKET_STRATEGY_GUIDE.md)
+
+### 示例策略
+
+参考以下示例了解如何编写多市场策略:
+
+- `examples/us_stock_dual_ma.py` - 美股双均线策略
+- `examples/hk_stock_grid.py` - 港股网格策略
+- `examples/crypto_momentum.py` - 加密货币动量策略
+
+---
+
+# 第一章:引言:为什么选择看海量化
 
 ## 1.1 关于我
 

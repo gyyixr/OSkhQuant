@@ -1,0 +1,11 @@
+# OSkhQuant 加密货币版依赖
+# 包含基础版 + 加密货币市场支持
+
+-r requirements-base.txt
+
+# 加密货币交易所API
+ccxt>=4.0.0
+python-binance>=1.0.0
+
+# WebSocket支持
+websockets>=11.0.0

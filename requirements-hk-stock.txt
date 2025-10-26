@@ -1,0 +1,10 @@
+# OSkhQuant 港股版依赖
+# 包含基础版 + 港股市场支持
+
+-r requirements-base.txt
+
+# 港股数据源
+futu-api>=6.0.0
+
+# 或使用
+# tigeropen>=2.0.0

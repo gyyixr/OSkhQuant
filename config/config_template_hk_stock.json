@@ -1,0 +1,50 @@
+{
+    "market": {
+        "type": "hk_stock",
+        "name": "港股市场"
+    },
+    "data_source": {
+        "provider": "futu",
+        "host": "127.0.0.1",
+        "port": 11111,
+        "api_key": "YOUR_FUTU_API_KEY",
+        "api_secret": "YOUR_FUTU_API_SECRET"
+    },
+    "system": {
+        "run_mode": "backtest",
+        "session_id": 0,
+        "check_interval": 3
+    },
+    "account": {
+        "account_id": "futu_account",
+        "account_type": "STOCK_ACCOUNT"
+    },
+    "backtest": {
+        "start_time": "20240101",
+        "end_time": "20241231",
+        "init_capital": 1000000,
+        "benchmark": "HK.^HSI",
+        "trade_cost": {
+            "commission_rate": 0.0003,
+            "min_commission": 3.0,
+            "stamp_tax_rate": 0.0013,
+            "trading_fee_rate": 0.00565,
+            "settlement_fee_rate": 0.002,
+            "slippage": 0.001
+        }
+    },
+    "data": {
+        "kline_period": "1d",
+        "stock_list": [
+            "00700",
+            "09988",
+            "00388"
+        ],
+        "dividend_type": "none"
+    },
+    "risk": {
+        "position_limit": 0.95,
+        "order_limit": 1000,
+        "loss_limit": 0.1
+    }
+}
